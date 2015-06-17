@@ -1,18 +1,21 @@
-=begin
-### The Problem (from [Codility]())
-A non-empty zero-indexed array A consisting of N integers is given. A pair of integers (P, Q), such that 0 ≤ P ≤ Q < N, is called a slice of array A. The sum of a slice (P, Q) is the total of A[P] + A[P+1] + ... + A[Q].
-Write a function ``def solution(a)`` that, given an array A consisting of N integers, returns the maximum sum of any slice of A.
+def max_slice_sum(a)
+  # return -1 in case of invalid input
+  return -1 unless a.is_a?(Array) && a.size > 0
+  # if there's only one element, return it
+  return a.first if a.size == 1
 
-### Strategy
-Upon hearing this question I immediately thought of a naive solution that would have a runtime of O(N^2) time.  Basically you loop through the elements, and then for each element you loop through the remaining elements to create every possible subarray and keep track of the highest sum.  This would work, but it's too slow to be useful, so I had to keep thinking.
+  # sum we're currently adding to
+  running_sum = 0
+  max_so_far = 0
 
-I think the hardest part about coding questions like this one is getting from the naive solution to a faster
-The relationship I want to maximize:
-``sum(A[P..Q])`` where P and Q are indices in A.
+  a.each do |el|
+    # max at this element
+    max_current = (el + running_sum) > el ? (el + running_sum) : el
+    running_sum = max_current > 0 ? max_current : 0
+    max_so_far = max_so_far > running_sum ? max_so_far : running_sum
+  end
 
-### Solution - Ruby
-### Solution - Java
-### Solution - Go
+  # deal with the situation where there are no positive elements
+  max_so_far == 0 ? a.max : max_so_far
+end
 
-### Lingering Thoughts
-=end
